@@ -29,6 +29,11 @@ Keep this list current. During a sync these are the places where conflicts can a
   mc1arke/sonarqube-community-branch-plugin#1303 (scanner engine jars after the server libs, to fix
   `ProtobufRuntimeVersionException` in `snapshot (21)`). Applied verbatim; if upstream merges #1303
   the sync resolves cleanly, otherwise this conflicts when upstream edits the `dependencies` block.
+- `.github/workflows/integration-test.yml`, `scripts/integration-test.sh` — end-to-end
+  integration test (SonarQube in Docker, then main, branch, and pull request analyses) from
+  upstream PR mc1arke/sonarqube-community-branch-plugin#1302, copied verbatim from head `6d5f69a`.
+  New files, so they do not conflict unless upstream merges a different version of them; in that
+  case take the upstream version.
 - `NOTICE` — fork copyright attribution. New file, so it does not conflict.
 - `UPSTREAM.md` — this file. New file, so it does not conflict.
 - `.gitignore` — appended `#Claude Code` and please plugin blocks at the end of the file.
