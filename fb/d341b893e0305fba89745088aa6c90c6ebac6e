@@ -1,0 +1,23 @@
+UPSTREAM.md
+  s_537961b15a257f::t_a8a286a7102ae5 34-38,40
+scripts/integration-test.sh
+  s_537961b15a257f::t_fbfe518ac8934b 29-31
+.github/workflows/integration-test.yml
+  s_537961b15a257f::t_88ef0ba78eb4a4 18,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fbd341b893e0305fba89745088aa6c90c6ebac6e",
+  "prompts": {},
+  "sessions": {
+    "s_537961b15a257f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bb0be7c9-ba7d-4ac0-bb6a-dd85238700c2",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
