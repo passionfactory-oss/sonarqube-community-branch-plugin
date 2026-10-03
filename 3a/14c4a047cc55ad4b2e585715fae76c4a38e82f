@@ -1,0 +1,21 @@
+.gemini/config.yaml
+  s_644feea3064aed::t_de439397e85d12 1-37
+.please/config.yml
+  s_644feea3064aed::t_32574d0cfbc421 32-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3a14c4a047cc55ad4b2e585715fae76c4a38e82f",
+  "prompts": {},
+  "sessions": {
+    "s_644feea3064aed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d9095eef-0fdb-4009-8985-cf15f5c4c4d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
