@@ -1,0 +1,42 @@
+CLAUDE.md
+  s_6dd03935c5e959::t_bd7209ce4930dc 1-27
+docs/specs/index.md
+  s_6dd03935c5e959::t_c35d83dac4178f 1-6
+.please/config.yml
+  s_6dd03935c5e959::t_c35d83dac4178f 1-31
+docs/knowledge/product.md
+  s_6dd03935c5e959::t_d3a130239e52f4 1-39
+docs/knowledge/product-guidelines.md
+  s_6dd03935c5e959::t_d3a130239e52f4 1-34
+.please/INDEX.md
+  s_6dd03935c5e959::t_c35d83dac4178f 1-38
+docs/knowledge/tech-stack.md
+  s_6dd03935c5e959::t_a7240d23b350d2 6,9,18
+  s_6dd03935c5e959::t_d3a130239e52f4 1-5,7-8,10-17,19-37
+.worktreeinclude
+  s_6dd03935c5e959::t_c35d83dac4178f 4
+docs/knowledge/workflow.md
+  s_6dd03935c5e959::t_d3a130239e52f4 1-122
+.please/docs/tracks/tech-debt-tracker.md
+  s_6dd03935c5e959::t_c35d83dac4178f 1-13
+docs/adr/index.md
+  s_6dd03935c5e959::t_c35d83dac4178f 1-6
+.gitignore
+  s_6dd03935c5e959::t_c35d83dac4178f 29-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "75a4dd2e7abe824c07a62481986584215b56a8df",
+  "prompts": {},
+  "sessions": {
+    "s_6dd03935c5e959": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "076c92a7-c109-4261-8ed7-b54d5d24f1e1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
