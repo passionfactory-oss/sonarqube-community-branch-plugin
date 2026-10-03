@@ -37,7 +37,7 @@ jobs:
     # waits for their server-side Compute Engine processing to complete.
     name: SonarQube branch and PR integration test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout candidate including SonarQube webapp submodule

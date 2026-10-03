@@ -90,7 +90,9 @@ The `commit-msg` hook checks the commit message format.
 
 - `scripts/integration-test.sh` builds the candidate plugin and webapp into the SonarQube Docker
   image, then runs real main, branch, and pull request analyses and waits for each Compute
-  Engine task. Run it with `bash scripts/integration-test.sh`; it needs Docker and port 9000.
+  Engine task. Run it with `bash scripts/integration-test.sh`; it needs Docker Compose, curl,
+  Python 3, and a free host port 9000. Stop any stack started from `docker-compose.yml` first:
+  its fixed container names (`sonarqube`, `postgres`) make the test stack fail to start.
 - The `integration-test-poc` workflow runs it on pull requests that change the plugin, webapp,
   Docker, or build files, and on manual dispatch.
 

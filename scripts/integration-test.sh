@@ -34,7 +34,8 @@ POLL_INTERVAL_SECONDS="${POLL_INTERVAL_SECONDS:-5}"
 SCANNER_IMAGE="${SCANNER_IMAGE:-sonarsource/sonar-scanner-cli:12.2.0.4256_8.1.0}"
 
 # Isolated Compose project so cleanup's `down -v` never deletes a developer's local volumes.
-export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-community-branch-plugin-integration-test}"
+# An inherited COMPOSE_PROJECT_NAME is ignored on purpose: it usually names the developer's own stack.
+export COMPOSE_PROJECT_NAME="${INTEGRATION_TEST_COMPOSE_PROJECT:-community-branch-plugin-integration-test}"
 
 TEST_PROJECT_KEY="community-branch-plugin-poc"
 TEST_BRANCH="poc-branch"
@@ -72,7 +73,8 @@ wait_for_ce_task() {
 
   echo "Waiting for Compute Engine task ${task_id}..."
   while (( SECONDS < deadline )); do
-    status="$(curl --silent --show-error --fail --max-time "$CURL_MAX_TIME_SECONDS" -u "$token:"       "${SONARQUBE_URL}/api/ce/task?id=${task_id}"       | python3 -c 'import json,sys; print(json.load(sys.stdin)["task"]["status"])')"
+    status="$(curl --silent --show-error --fail --max-time "$CURL_MAX_TIME_SECONDS" -u "$token:"       "${SONARQUBE_URL}/api/ce/task?id=${task_id}"       | python3 -c 'import json,sys; print(json.load(sys.stdin)["task"]["status"])')" \
+      || { status="UNAVAILABLE"; echo "Compute Engine status poll failed; retrying until the deadline." >&2; }
 
     case "$status" in
       SUCCESS)
