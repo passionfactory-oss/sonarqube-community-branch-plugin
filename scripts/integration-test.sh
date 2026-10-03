@@ -26,6 +26,9 @@ CE_TIMEOUT_SECONDS="${CE_TIMEOUT_SECONDS:-120}"
 POLL_INTERVAL_SECONDS="${POLL_INTERVAL_SECONDS:-5}"
 SCANNER_IMAGE="${SCANNER_IMAGE:-sonarsource/sonar-scanner-cli:12.2.0.4256_8.1.0}"
 
+# Isolated Compose project so cleanup's `down -v` never deletes a developer's local volumes.
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-community-branch-plugin-integration-test}"
+
 TEST_PROJECT_KEY="community-branch-plugin-poc"
 TEST_BRANCH="poc-branch"
 TEST_PR_KEY="1"

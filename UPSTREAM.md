@@ -31,9 +31,13 @@ Keep this list current. During a sync these are the places where conflicts can a
   the sync resolves cleanly, otherwise this conflicts when upstream edits the `dependencies` block.
 - `.github/workflows/integration-test.yml`, `scripts/integration-test.sh` — end-to-end
   integration test (SonarQube in Docker, then main, branch, and pull request analyses) from
-  upstream PR mc1arke/sonarqube-community-branch-plugin#1302, copied verbatim from head `6d5f69a`.
+  upstream PR mc1arke/sonarqube-community-branch-plugin#1302, based on head `6d5f69a` with fork
+  modifications: the script sets a dedicated Compose project name
+  (`COMPOSE_PROJECT_NAME=community-branch-plugin-integration-test`) so `down -v` cannot delete a
+  developer's local volumes, and the workflow path filter also lists `settings.gradle` and
+  `.dockerignore`.
   New files, so they do not conflict unless upstream merges a different version of them; in that
-  case take the upstream version.
+  case take the upstream version and re-apply the fork modifications.
 - `NOTICE` — fork copyright attribution. New file, so it does not conflict.
 - `UPSTREAM.md` — this file. New file, so it does not conflict.
 - `.gitignore` — appended `#Claude Code` and please plugin blocks at the end of the file.
