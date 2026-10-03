@@ -1,0 +1,19 @@
+UPSTREAM.md
+  s_644feea3064aed::t_8b4d1dec027d69 59-60,64-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b2f09ecb398623e6e61fd7fceca73dacfad7d768",
+  "prompts": {},
+  "sessions": {
+    "s_644feea3064aed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d9095eef-0fdb-4009-8985-cf15f5c4c4d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
