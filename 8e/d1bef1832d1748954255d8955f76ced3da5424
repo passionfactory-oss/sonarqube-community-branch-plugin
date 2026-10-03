@@ -1,0 +1,23 @@
+docs/knowledge/tech-stack.md
+  s_644feea3064aed::t_a7085528a8ccf4 5
+sonarqube-webapp-addons/setup.sh
+  s_644feea3064aed::t_a7085528a8ccf4 8
+sonarqube-webapp-addons/src/feature-license/entitlements.ts
+  s_644feea3064aed::t_a7085528a8ccf4 13,15-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8ed1bef1832d1748954255d8955f76ced3da5424",
+  "prompts": {},
+  "sessions": {
+    "s_644feea3064aed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d9095eef-0fdb-4009-8985-cf15f5c4c4d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
