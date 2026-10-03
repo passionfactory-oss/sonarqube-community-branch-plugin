@@ -1,0 +1,21 @@
+docker/test-community-branch-entrypoint.sh
+  s_644feea3064aed::t_cd3fb567c67a2e 39
+UPSTREAM.md
+  s_644feea3064aed::t_e1314bcf95c394 71-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "95bcfcd0fc3cf39a7d8e26536eec494c6c08fb1f",
+  "prompts": {},
+  "sessions": {
+    "s_644feea3064aed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d9095eef-0fdb-4009-8985-cf15f5c4c4d6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Minsu Lee <amond@amond.net>"
+    }
+  }
+}
