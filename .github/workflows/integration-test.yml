@@ -22,6 +22,14 @@ on:
       - 'scripts/integration-test.sh'
       - '.github/workflows/integration-test.yml'
 
+permissions:
+  contents: read
+
+# A newer push to the same pull request supersedes the running integration test.
+concurrency:
+  group: integration-test-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   integration-test:
     # Tests the candidate in a real SonarQube instance rather than only checking

@@ -31,11 +31,21 @@ Keep this list current. During a sync these are the places where conflicts can a
   the sync resolves cleanly, otherwise this conflicts when upstream edits the `dependencies` block.
 - `.github/workflows/integration-test.yml`, `scripts/integration-test.sh` — end-to-end
   integration test (SonarQube in Docker, then main, branch, and pull request analyses) from
-  upstream PR mc1arke/sonarqube-community-branch-plugin#1302, based on head `6d5f69a` with fork
-  modifications: the script sets a dedicated Compose project name
-  (`COMPOSE_PROJECT_NAME=community-branch-plugin-integration-test`) so `down -v` cannot delete a
-  developer's local volumes, and the workflow path filter also lists `settings.gradle` and
-  `.dockerignore`.
+  upstream PR mc1arke/sonarqube-community-branch-plugin#1302, based on head `6d5f69a` with these
+  fork modifications:
+  - The script sets a dedicated Compose project name
+    (`COMPOSE_PROJECT_NAME=community-branch-plugin-integration-test`) so `down -v` cannot delete a
+    developer's local volumes.
+  - The script changes to the repository root first, so it runs from any directory.
+  - The scanner container joins the Compose network (`<project>_sonarnet`) and reaches SonarQube
+    at `http://sonarqube:9000` instead of using `--network host`, which does not reach the host
+    on Docker Desktop.
+  - The polling `curl` calls use `--max-time`, and startup success is tracked with a flag
+    instead of re-checking the deadline.
+  - A failed `docker compose down` in the `EXIT` trap no longer replaces the test's exit status.
+  - The workflow declares `permissions: contents: read` and a `concurrency` group that cancels
+    superseded runs, and its path filter also lists `settings.gradle` and `.dockerignore`.
+
   New files, so they do not conflict unless upstream merges a different version of them; in that
   case take the upstream version and re-apply the fork modifications.
 - `NOTICE` — fork copyright attribution. New file, so it does not conflict.

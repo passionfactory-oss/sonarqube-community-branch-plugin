@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Compose files, .env and the fixture paths are relative to the repository root.
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
 # End-to-end release-candidate test for the Community Branch Plugin.
 #
 # This test deliberately exercises SonarQube from the outside, as a user would:
@@ -21,6 +24,10 @@ set -euo pipefail
 # intentionally testing another scanner version.
 
 SONARQUBE_URL="${SONARQUBE_URL:-http://localhost:9000}"
+# The scanner container joins the Compose network and reaches SonarQube by service name,
+# because `--network host` does not reach the host on Docker Desktop (macOS, Windows).
+SCANNER_SONARQUBE_URL="${SCANNER_SONARQUBE_URL:-http://sonarqube:9000}"
+CURL_MAX_TIME_SECONDS="${CURL_MAX_TIME_SECONDS:-10}"
 STARTUP_TIMEOUT_SECONDS="${STARTUP_TIMEOUT_SECONDS:-300}"
 CE_TIMEOUT_SECONDS="${CE_TIMEOUT_SECONDS:-120}"
 POLL_INTERVAL_SECONDS="${POLL_INTERVAL_SECONDS:-5}"
@@ -37,7 +44,8 @@ TEST_PR_BASE="main"
 
 cleanup() {
   # Remove containers, networks and volumes so repeated/local runs start clean.
-  docker compose down -v --remove-orphans
+  # Never let a cleanup failure replace the test's own exit status.
+  docker compose down -v --remove-orphans || echo "Docker Compose cleanup failed." >&2
 }
 
 dump_logs() {
@@ -47,7 +55,7 @@ dump_logs() {
   echo "::endgroup::"
 }
 
-trap 'status=$?; if [ "$status" -ne 0 ]; then dump_logs; fi; cleanup; exit "$status"' EXIT
+trap 'rc=$?; if [ "$rc" -ne 0 ]; then dump_logs; fi; cleanup; exit "$rc"' EXIT
 
 wait_for_ce_task() {
   # Wait for the exact Compute Engine task produced by one scanner invocation.
@@ -64,7 +72,7 @@ wait_for_ce_task() {
 
   echo "Waiting for Compute Engine task ${task_id}..."
   while (( SECONDS < deadline )); do
-    status="$(curl --silent --show-error --fail -u "$token:"       "${SONARQUBE_URL}/api/ce/task?id=${task_id}"       | python3 -c 'import json,sys; print(json.load(sys.stdin)["task"]["status"])')"
+    status="$(curl --silent --show-error --fail --max-time "$CURL_MAX_TIME_SECONDS" -u "$token:"       "${SONARQUBE_URL}/api/ce/task?id=${task_id}"       | python3 -c 'import json,sys; print(json.load(sys.stdin)["task"]["status"])')"
 
     case "$status" in
       SUCCESS)
@@ -109,7 +117,7 @@ analyse() {
   local out
   local task_id
 
-  out="$(docker run --rm --network host     -v "$PWD/build/integration-test-project:/usr/src"     "$SCANNER_IMAGE"     -Dsonar.host.url="${SONARQUBE_URL}"     -Dsonar.token="$token"     "$@" | tee /dev/stderr)"
+  out="$(docker run --rm --network "${COMPOSE_PROJECT_NAME}_sonarnet"     -v "$PWD/build/integration-test-project:/usr/src"     "$SCANNER_IMAGE"     -Dsonar.host.url="${SCANNER_SONARQUBE_URL}"     -Dsonar.token="$token"     "$@" | tee /dev/stderr)"
 
   task_id="$(sed -n 's|.*api/ce/task?id=\([^[:space:]]*\).*|\1|p' <<<"$out" | tail -1)"
   wait_for_ce_task "$task_id"
@@ -120,17 +128,19 @@ docker compose up -d --build
 
 echo "Waiting for SonarQube at ${SONARQUBE_URL}..."
 deadline=$((SECONDS + STARTUP_TIMEOUT_SECONDS))
+up=false
 
 while (( SECONDS < deadline )); do
-  response="$(curl --silent --show-error --fail "${SONARQUBE_URL}/api/system/status" 2>/dev/null || true)"
+  response="$(curl --silent --show-error --fail --max-time "$CURL_MAX_TIME_SECONDS" "${SONARQUBE_URL}/api/system/status" 2>/dev/null || true)"
   if [[ "$response" == *'"status":"UP"'* ]]; then
     echo "SonarQube is UP."
+    up=true
     break
   fi
   sleep "$POLL_INTERVAL_SECONDS"
 done
 
-if (( SECONDS >= deadline )); then
+if [[ "$up" != true ]]; then
   echo "SonarQube did not become UP within ${STARTUP_TIMEOUT_SECONDS}s." >&2
   exit 1
 fi
