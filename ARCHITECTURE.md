@@ -181,7 +181,8 @@ for local builds. The `Dockerfile` copies it in instead, and CI builds the webap
 The test tree mirrors the main package tree. Tests use JUnit Jupiter, Mockito, and AssertJ. ALM
 decorator integration tests (GitLab, Azure DevOps) stub the provider's HTTP API with WireMock and
 fail on unmatched requests. `build.gradle` puts the extracted SonarQube libraries on the test
-classpath and prepends a `customTestRuntime` configuration (WireMock, the GitHub API library).
+classpath, then prepends the `github-api-unbridged` jar from `testRuntimeClasspath`, because
+`sonar-application` bundles the bridged GitHub API classes that Mockito cannot stub.
 
 ## Architecture invariants
 
