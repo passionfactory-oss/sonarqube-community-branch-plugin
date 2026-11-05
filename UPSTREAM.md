@@ -30,6 +30,12 @@ Keep this list current. During a sync these are the places where conflicts can a
 - `README.md` — the two badges on the first lines point to this repository's SonarCloud project
   and `build.yml` on `main`, and a fork notice block sits directly below the introduction
   paragraph. Conflicts if upstream edits the badges or the lines around the introduction.
+- `build.gradle` — a `customTestRuntime` configuration that puts `github-api-unbridged` first on
+  the test runtime classpath. `sonar-application` 26.9 bundles the bridged `org.kohsuke.github`
+  classes, and Gradle orders file dependencies before module dependencies, so without it
+  `GithubPullRequestDecoratorTest` fails with `CannotStubVoidMethodWithReturnValue`. Upstream
+  `c96d631` removed the same mechanism; the fork restores it at the end of the `dependencies`
+  block. Conflicts if upstream edits the end of that block or the `configurations` block.
 - `.github/workflows/integration-test.yml`, `scripts/integration-test.sh` — end-to-end
   integration test (SonarQube in Docker, then main, branch, and pull request analyses) from
   upstream PR mc1arke/sonarqube-community-branch-plugin#1302, based on head `6d5f69a` with these
