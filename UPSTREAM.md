@@ -84,8 +84,8 @@ Keep this list current. During a sync these are the places where conflicts can a
   versions (Zulu 21, Node 22, hk) and tasks. New files, so they do not conflict.
 - `hk.pkl` — git hook configuration (`commit-msg` Conventional Commits check). New file, so it
   does not conflict.
-- `.worktreeinclude`, `.claude/settings.json` — worktree and Claude Code setup. New files, so
-  they do not conflict.
+- `.worktreeinclude`, `.claude/settings.json`, `.claude/agent-memory/` — worktree and Claude Code
+  setup, and shared subagent memory. New files, so they do not conflict.
 - `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` — community health files. New files, so
   they do not conflict.
 - `ARCHITECTURE.md` — codebase map. New file, so it does not conflict; update it when an upstream
