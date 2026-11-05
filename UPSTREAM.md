@@ -14,7 +14,8 @@ merge new upstream releases. Update it every time you sync.
 ## Sync status
 
 - Last synced upstream commit: `c0fb32b` (2026-11-05, "Add support for Sonarqube 26.6")
-- Last upstream release included: `26.5.1` (SonarQube 26.5)
+- Last upstream release included: `26.5.0` (SonarQube 26.5). Upstream has not released 26.6 yet;
+  `26.5.1` in upstream history is only the post-release version bump, not a release.
 - Unmerged upstream PRs merged into the fork: mc1arke/sonarqube-community-branch-plugin#1296 and
   mc1arke/sonarqube-community-branch-plugin#1298, at head `a68cf75` (SonarQube 26.7, 26.8, and
   26.9 support; see [Fork-only changes](#fork-only-changes))
@@ -115,10 +116,14 @@ Keep this list current. During a sync these are the places where conflicts can a
    ```
 
 3. Resolve conflicts in the files listed in [Fork-only changes](#fork-only-changes).
-4. Update the `sonarqube-webapp` submodule to the commit upstream points to:
+4. Check out the `sonarqube-webapp` submodule at the commit the merge recorded:
 
    ```bash
    git submodule update --init --recursive
    ```
+
+   While the fork targets a newer SonarQube than upstream, the merge keeps the fork's submodule
+   commit (see the SonarQube 26.7–26.9 entry in [Fork-only changes](#fork-only-changes)). Do not
+   move it back to upstream's older tag.
 
 5. Update [Sync status](#sync-status) in this file, then push `main`.
