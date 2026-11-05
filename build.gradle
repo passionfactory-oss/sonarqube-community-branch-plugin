@@ -48,7 +48,6 @@ java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 configurations {
     zip
-    customTestRuntime
 }
 
 compileJava {
@@ -78,13 +77,11 @@ dependencies {
     compileOnly('com.google.code.findbugs:jsr305:3.0.2')
     implementation('org.javassist:javassist:3.33.0-GA')
     implementation('com.squareup.okhttp3:logging-interceptor:5.5.1')
-
-    // sonar-application bundles the bridged org.kohsuke.github classes, and Gradle puts file
-    // dependencies ahead of module dependencies, so prepend the unbridged jar for mocking.
-    customTestRuntime('org.kohsuke:github-api-unbridged:1.330')
 }
 
-sourceSets.test.runtimeClasspath = configurations.customTestRuntime + sourceSets.test.runtimeClasspath
+// sonar-application bundles the bridged org.kohsuke.github classes, and Gradle puts file
+// dependencies ahead of module dependencies, so prepend the unbridged jar for mocking.
+sourceSets.test.runtimeClasspath = configurations.testRuntimeClasspath.filter { it.name.startsWith('github-api-unbridged-') } + sourceSets.test.runtimeClasspath
 
 project.afterEvaluate {
     if (file("${sonarLibraries}").exists()) {
