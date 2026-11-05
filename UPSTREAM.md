@@ -13,14 +13,14 @@ merge new upstream releases. Update it every time you sync.
 
 ## Sync status
 
-- Last synced upstream commit: `81c7ae1` (2026-06-01, "Return to SNAPSHOT version post release")
+- Last synced upstream commit: `c0fb32b` (2026-11-05, "Add support for Sonarqube 26.6")
 - Last upstream release included: `26.5.1` (SonarQube 26.5)
 - Unmerged upstream PRs merged into the fork: mc1arke/sonarqube-community-branch-plugin#1296 and
   mc1arke/sonarqube-community-branch-plugin#1298, at head `a68cf75` (SonarQube 26.7, 26.8, and
   26.9 support; see [Fork-only changes](#fork-only-changes))
 - Targeted SonarQube version: `26.9.0.129388` (webapp submodule at `sqcb-26.9.0`)
 - Version on `main`: `26.9.0-SNAPSHOT`
-- Last checked against upstream: 2026-10-03 (upstream `master` was still at `81c7ae1`)
+- Last checked against upstream: 2026-11-06 (upstream `master` at `c0fb32b`)
 
 ## Fork-only changes
 
@@ -29,10 +29,6 @@ Keep this list current. During a sync these are the places where conflicts can a
 - `README.md` — the two badges on the first lines point to this repository's SonarCloud project
   and `build.yml` on `main`, and a fork notice block sits directly below the introduction
   paragraph. Conflicts if upstream edits the badges or the lines around the introduction.
-- `build.gradle` — test classpath split from upstream PR
-  mc1arke/sonarqube-community-branch-plugin#1303 (scanner engine jars after the server libs, to fix
-  `ProtobufRuntimeVersionException` in `snapshot (21)`). Applied verbatim; if upstream merges #1303
-  the sync resolves cleanly, otherwise this conflicts when upstream edits the `dependencies` block.
 - `.github/workflows/integration-test.yml`, `scripts/integration-test.sh` — end-to-end
   integration test (SonarQube in Docker, then main, branch, and pull request analyses) from
   upstream PR mc1arke/sonarqube-community-branch-plugin#1302, based on head `6d5f69a` with these
@@ -75,6 +71,11 @@ Keep this list current. During a sync these are the places where conflicts can a
   If upstream merges both PRs with these commits, only those three files can conflict; keep the
   fork edits. If upstream squashes or rebases the PRs first, expect conflicts in every file listed
   above; take the upstream version, then re-apply the edits from `8ed1bef` and `95bcfcd`.
+
+  Until upstream reaches 26.9, its SonarQube version bumps conflict in `.env`
+  (`SONARQUBE_VERSION`) and `build.gradle` (`sonarqubeVersion`). Keep the fork's 26.9 values. The
+  `sonarqube-webapp` submodule stays at `sqcb-26.9.0`, which git fast-forwards because the older
+  upstream tags are its ancestors. The 26.6 sync at `c0fb32b` resolved this way.
 - `NOTICE` — fork copyright attribution. New file, so it does not conflict.
 - `UPSTREAM.md` — this file. New file, so it does not conflict.
 - `.gitignore` — appended `#Claude Code` and please plugin blocks at the end of the file.
